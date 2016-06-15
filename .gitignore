@@ -1,0 +1,6 @@
+node_modules
+extension/bower_components
+server/node_modules
+Webdriver Recorder
+key.pem
+WebdriverRecorder.crx

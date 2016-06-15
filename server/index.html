@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebDriver Recorder</title>
+</head>
+<body ng-app="App">
+    <div ng-controller="mainController">
+        <label for="">{{printFolderPath()}}</label>
+        <button ng-show="!folderPath.length" ng-click="openFolder()">选择case基础文件夹</button>
+        <div ng-show="!!folderPath.length">
+            <button ng-if="envHasInit" ng-click="initEnv()">初始化环境</button>
+        </div>
+        <div ng-show="!!folderPath.length">
+            <label>
+                <input type="checkbox" ng-model="isPhone">
+                模拟手机
+            </label>
+            <button ng-click="startProxy()">开启代理</button>
+        </div>
+    </div>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="src/app.js"></script>
+</body>
+</html>

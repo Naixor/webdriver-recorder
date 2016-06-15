@@ -1,0 +1,86 @@
+{
+    "chrome": {
+        "extensionVersion": "1.0.0",
+        "version": "49.0.2623.112"
+    },
+    "case_name": "Search input show",
+    "initialUrl": "https://developer.chrome.com/extensions/tabs",
+    "title": "chrome.tabs - Google Chrome",
+    "steps": [{
+        "command": "click",
+        "selector": "#search > img",
+        "xpath": "//*[@id=\"search\"]/img",
+        "meta": {
+            "x": 1050,
+            "y": 36,
+            "scrollTop": 0,
+            "targetLeft": 838,
+            "targetTop": 32,
+            "targetWidth": 16,
+            "targetHeight": 16,
+            "hover": [{
+                "selector": "#fatnav",
+                "xpath": "//*[@id=\"fatnav\"]"
+            }, {
+                "selector": "#fatnav",
+                "xpath": "//*[@id=\"fatnav\"]"
+            }, {
+                "selector": "#fatnav",
+                "xpath": "//*[@id=\"fatnav\"]"
+            }, {
+                "selector": "div.gc-container",
+                "xpath": "/html/body/div"
+            }, {
+                "selector": "body",
+                "xpath": "/html/body"
+            }, {
+                "selector": "div.api",
+                "xpath": "//*[@id=\"gc-pagecontent\"]/article/div"
+            }, {
+                "selector": "body",
+                "xpath": "/html/body"
+            }, {
+                "selector": "div.gc-container",
+                "xpath": "/html/body/div"
+            }, {
+                "selector": "#search",
+                "xpath": "//*[@id=\"search\"]"
+            }, {
+                "selector": "#search > img",
+                "xpath": "//*[@id=\"search\"]/img"
+            }]
+        },
+        "capture": false,
+        "delay": 2
+    }, {
+        "command": "click",
+        "selector": "div.expandee",
+        "xpath": "//*[@id=\"search\"]/div",
+        "meta": {
+            "x": 1063,
+            "y": 102,
+            "scrollTop": 0,
+            "targetLeft": 0,
+            "targetTop": 64,
+            "targetWidth": 870,
+            "targetHeight": 86,
+            "hover": [{
+                "selector": "#search",
+                "xpath": "//*[@id=\"search\"]"
+            }, {
+                "selector": "div.expandee",
+                "xpath": "//*[@id=\"search\"]/div"
+            }]
+        },
+        "capture": false,
+        "delay": 2,
+        "byMethod": "be.visible"
+    }],
+    "isRecording": true,
+    "base": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36",
+        "width": 1280,
+        "height": 800,
+        "cookie": "BIDUPSID=BE4FE3E489FABB48103A7004302F7BA9;BDUSS=hQcFNzM2k2Qn5wendQZHdYMnJuZkhwbVJSVER2MDVJSEVzZjBadVo5NkxMU0JYQVFBQUFBJCQAAAAAAAAAAAEAAACj03sSTmFpeG9yAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIug-FaLoPhWbD;BAIDUID=BE4FE3E489FABB48103A7004302F7BA9:FG=1"
+    }
+}

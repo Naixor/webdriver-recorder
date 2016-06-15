@@ -1,0 +1,188 @@
+<!--<!DOCTYPE html>
+<html lang="en" ng-app="WebdriverRecorder">
+<head>
+    <meta charset="UTF-8">
+    <title>Webdriver Recorder</title>
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+    <link rel="stylesheet" href="stylesheets/popup.css">
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.min.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.min.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+</head>
+<body ng-controller="mainCtrl">
+    <header layout="row" layout-align="space-around center">
+        <section flex="60">
+            
+        </section>
+        <section flex="25" flex-offset="10">
+            <md-button class="state-{{State()}}" ng-click="recordBtnClick()" ng-disabled={{!canRecord}}> Start Record </md-button>
+        </section>
+    </header>
+    <content>
+        <section layout="row" layout-align="start start">
+            <md-input-container class="md-block">
+                <label>Descript</label>
+                <input name="descriptName(*)" ng-model="case.descriptName" ng-required="true">
+            </md-input-container>
+        </section>
+        <md-divider></md-divider>
+        <div id="steps">
+            <md-list id="steps-table">
+                <md-subheader class="md-no-sticky">操作</md-subheader>
+                <md-list-item ng-hide="!isRecording">
+                    <span>1.</span>
+                    <strong>打开</strong>
+                    <p>{{data.initialUrl}}</p>
+                </md-list-item>
+                <md-list-item ng-repeat="step in data.steps track by $index">
+                    <span> {{ $index+2 }}. </span>
+                    <p>
+                        <strong>{{step.command}}</strong>
+                        <strong class="text-error">{{step.selector}}</strong>
+                        <em><span class="muted" ng-show="step.link">({{step.link.trim()}})</span></em>
+                    </p>
+                    <dl class="text-muted step-data">
+                        <dd ng-show="step.xpath">xpath: {{step.xpath}}</dd>
+                        <dd ng-show="step.data">data: {{step.data.join(', ')}}</dd>
+                    </dl>
+                    <md-button ng-click="addDescription($index)" class="md-mini md-fab md-secondary" title="Add description">+</md-button>
+                    <md-button ng-click="removeStep($index)" class="md-mini md-fab md-secondary" title="Remove step">&times;</md-button>
+                </md-list-item>
+                <md-list-item ng-hide="!!data.steps">
+                    <p>没有步骤记录</p>
+                </md-list-item>
+            </md-list>
+        </div>
+    </content>
+    <footer>
+        <md-button ng-click="saveToDisk()" class="md-raised md-warn" title="Save to local">Save</md-button>
+        <p>{{status}}</p>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>-->
+<!doctype html>
+<html ng-app="browserbiteRecorder" ng-csp>
+	<head>
+		<meta charset="utf-8" />
+		<title>Scripting</title>
+		<link rel="stylesheet" href="stylesheets/angular-ui.min.css">
+		<link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+		<link rel="stylesheet" href="stylesheets/popup.css">
+
+		<!-- JavaScript and HTML must be in separate files for security. -->
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="bower_components/angular/angular.min.js"></script>
+		<script src="js/ui-utils.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/services.js"></script>
+		<script src="js/controllers.js"></script>
+		<script src="js/popup.js"></script>
+	</head>
+	<body ng-controller="PopupController">
+		<div class="container1">
+			<div id="actions" class="clearfix">
+				<div class="pull-right">
+					<form class="form-inline">
+						<div class="btn-group">
+							<button ng-switch on="isRecording" class="btn" ng-class="mainButtonClass" ng-click="clickMainButton()" ng-disabled="!canRecord">
+								<span ng-switch-when="false"><span class="glyphicon glyphicon-facetime-video"></span> 开始记录</span>
+								<span ng-switch-when="true"><span class="glyphicon glyphicon-upload"></span>下载到本地</span>
+							</button>
+							<button class="btn dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li ng-class="{ disabled: !isRecording }"><a href="#" tabindex="-1" ng-click="stopRecording()"><span class="glyphicon" ng-class="{ 'glyphicon-off': isRecording }"></span> 停止记录</a></li>
+								<!-- <li class="action-play" ng-class="{ disabled: !isRecording }"><a href="#" tabindex="-1"><span class="glyphicon" ng-class="{ 'glyphicon-play': isRecording }"></span> Playback</a></li> -->
+								<li ng-class="{ disabled: !data }"><a href="#" tabindex="-1" ng-click="removeSteps()"><span class="glyphicon" ng-class="{ 'glyphicon-trash': data }"></span> 删除</a></li>
+								<li class="divider"></li>
+								<!--<li><a href="#" tabindex="-1" ng-click="openOptions()"><span class="glyphicon glyphicon-cog"></span>  设置</a></li>-->
+							</ul>
+						</div>
+					</form>
+					<form id="recording_form" name="recording_form" action="" method="post" target="_blank">
+						<!--<input name="product_id" type="hidden" value="{{ options.product_id }}" />-->
+						<input name="recording" type="hidden" value="{{data | json}}">
+					</form>
+				</div>
+                <div class="pull-left">
+                    <input name="case_name" type="text" ng-model="data.case_name">
+					<span style="color: red;" ng-if="!data.case_name">*请填写case名</span>
+					<span ng-style="{'color': getUploadMessageColor()}" ng-if="!!uploadMessage">{{uploadMessage}}</span>
+                </div>
+			</div>
+			<div id="steps">
+				<table id="steps-table" class="table table-hover">
+					<thead>
+						<tr>
+							<th style="width: 1em"></th>
+							<th style="">步骤</th>
+                            <th style="width: 2em"><span class="glyphicon glyphicon-wrench" rel="tooltip" title="Method"></span></th>
+							<th style="width: 3em"><span class="glyphicon glyphicon-screenshot" rel="tooltip" title="Expact"></span></th>                            
+							<th style="width: 3em" ng-show="data.show_advanced_options"><span class="glyphicon glyphicon-time" rel="tooltip" title="Delay before capture (in seconds)"></span></th>
+							<th style="width: 1em"><span class="glyphicon glyphicon-camera" rel="tooltip" title="Not depend on id or class"></span></th>
+							<th style="width: 1em"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-show="data.initialUrl">
+							<td>1.</td>
+							<td class="step-cell" colspan="3"><strong>打开</strong> {{data.initialUrl}}</td>
+						</tr>
+						<tr ng-repeat="step in data.steps track by $index" ng-class="{ 'discarded': step.discard}">
+							<td>{{$index+2}}.</td>
+							<td class="step-cell">
+								<strong>{{step.command | inflector:humanize}}</strong>
+								<strong class="text-error">{{step.selector}}</strong>
+								<em><span class="muted" ng-show="step.link">({{step.link.trim()}})</span></em>
+								<dl class="text-muted step-data">
+									<dd ng-show="step.xpath">xpath: {{step.xpath}}</dd>
+									<dd ng-show="step.data">data: {{step.data.join(', ')}}</dd>
+								</dl>
+							</td>
+                            <td>
+                                <select name="by" ng-model="step.byMethod">
+                                    <option ng-repeat="method in options.methods track by $index" value="{{method}}">{{method}}</option>
+                                </select>
+                            </td>
+                            <td class="expect-cell">
+                                <input type="text" ng-disabled="!step.byMethod" class="input-expect" title="Expect" ng-model="step.expect">
+                            </td>
+							<td ng-show="data.show_advanced_options">
+								<input type="number" class="input-delay" min="0" max="5" ng-model="step.delay" title="Delay before capture" />
+							</td>
+							<td>
+								<label class="checkbox">
+									<input type="checkbox" ng-disabled="step.discard" ng-model="step.byIdx" title="Not depend on id or class" />
+								</label>
+							</td>
+							<td><button ng-click="removeStep($index)" class="close" title="Remove step">&times;</button></td>
+						</tr>
+						<tr ng-hide="!!data.steps">
+							<td></td>
+							<td colspan="4">没有步骤记录</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="options-table table table-condensed pull-right muted" ng-show="data.show_advanced_options && !!data.steps">
+					<tr>
+						<td class="options-label">全局:</td>
+						<td><input type="number" class="input-delay" min="0" max="5" ng-model="delayAll" ng-change="changeDelayAll()" title=" 延迟截屏" /></td>
+						<td><input type="checkbox" ng-model="captureAll" ng-change="changeCaptureAll()" title="截屏"></td>
+					</tr>
+				</table>
+				<div class="checkbox">
+					<label class="muted">
+						<input type="checkbox" ng-model="data.show_advanced_options" />
+						 显示高级选项
+					</label>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

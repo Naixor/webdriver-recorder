@@ -1,0 +1,24 @@
+{
+  "name": "webdriver-recorder-server",
+  "version": "1.0.0",
+  "description": "webdriver recorder server",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js",
+    "package": "electron-packager ./ WebdriverRecorderApp --all --out ~/Desktop/WebdriverRecorderApp --version 0.37.6 --overwrite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@Naixor (hongyesoftware@gmail.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "electron-packager": "^7.0.0",
+    "electron-prebuilt": "^0.37.6"
+  },
+  "dependencies": {
+    "angular": "^1.5.5",
+    "anyproxy": "^3.9.1",
+    "istanbul": "^0.4.3",
+    "js-beautify": "^1.6.2",
+    "promise": "^7.1.1"
+  }
+}
